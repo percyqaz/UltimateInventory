@@ -2,9 +2,9 @@
  Minecraft/Spigot plugin to streamline inventory management
 
 Features:
-- Right click on an ender chest in your inventory to open your ender chest
-- Right clicking again closes your ender chest
-- Right click on a shulker box in your inventory OR in your ender chest to open it
+- Right-click on an ender chest in your inventory to open your ender chest
+- Right-clicking again closes your ender chest
+- Right-click on a shulker box in your inventory OR in your ender chest to open it
 
 Anti duplication measures against:
 - Dropping the shulker box
