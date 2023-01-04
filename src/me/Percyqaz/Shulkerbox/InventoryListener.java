@@ -14,8 +14,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
@@ -70,6 +73,16 @@ public class InventoryListener implements Listener
             player.openInventory(player.getEnderChest());
             Bukkit.getServer().getPlayer(player.getUniqueId()).playSound(player, Sound.BLOCK_ENDER_CHEST_OPEN, SoundCategory.BLOCKS, 1.0f, 1.2f);
         }
+    }
+
+    private void ShowCraftingTable(HumanEntity player)
+    {
+        if (player.getOpenInventory().getType() == InventoryType.WORKBENCH)
+        {
+            return;
+        }
+
+        player.openWorkbench(null, true);
     }
 
     private void OpenShulkerbox(HumanEntity player, ItemStack shulkerItem)
@@ -128,8 +141,8 @@ public class InventoryListener implements Listener
             if (openShulkerBoxes.containsKey(e.getWhoClicked().getUniqueId()) &&
                     (
                             e.getAction() == InventoryAction.HOTBAR_SWAP
-                                    || e.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD
-                                    || (e.getCurrentItem() != null && IsShulkerBox(e.getCurrentItem().getType()))
+                            || e.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD
+                            || (e.getCurrentItem() != null && IsShulkerBox(e.getCurrentItem().getType()))
                     )
             )
             {
@@ -149,11 +162,20 @@ public class InventoryListener implements Listener
         ItemStack item = e.getCurrentItem();
         Material itemType = item.getType();
 
-        if (itemType == Material.ENDER_CHEST)
+        if (itemType == Material.ENDER_CHEST && item.getAmount() == 1)
         {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                     plugin,
                     () -> ShowEnderchest(e.getWhoClicked())
+            );
+            e.setCancelled(true);
+        }
+
+        if (itemType == Material.CRAFTING_TABLE && item.getAmount() == 1)
+        {
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                    plugin,
+                    () -> ShowCraftingTable(e.getWhoClicked())
             );
             e.setCancelled(true);
         }
@@ -168,6 +190,46 @@ public class InventoryListener implements Listener
         }
     }
 
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void RightClick(PlayerInteractEvent e)
+    {
+        if (e.getHand() != EquipmentSlot.HAND || e.getAction() != Action.RIGHT_CLICK_AIR)
+        {
+            return;
+        }
+
+        Player player = e.getPlayer();
+        ItemStack item = player.getInventory().getItemInMainHand();
+        Material itemType = item.getType();
+
+        if (itemType == Material.ENDER_CHEST)
+        {
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                    plugin,
+                    () -> ShowEnderchest(player)
+            );
+            e.setCancelled(true);
+        }
+
+        if (itemType == Material.CRAFTING_TABLE)
+        {
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                    plugin,
+                    () -> ShowCraftingTable(player)
+            );
+            e.setCancelled(true);
+        }
+
+        if (IsShulkerBox(itemType))
+        {
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                    plugin,
+                    () -> OpenShulkerbox(player, item)
+            );
+            e.setCancelled(true);
+        }
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void InventoryClose(InventoryCloseEvent e)
     {
@@ -177,13 +239,13 @@ public class InventoryListener implements Listener
         }
     }
 
+    // Needs to close shulker box before items drop on death to avoid a duplication bug
     @EventHandler(priority = EventPriority.HIGHEST)
     public void Death(PlayerDeathEvent e)
     {
         Player player = e.getEntity();
         if (openShulkerBoxes.containsKey(player.getUniqueId()))
         {
-            // Needs to happen before items drop on death to avoid a duplication bug
             CloseShulkerbox(player);
         }
     }
