@@ -5,7 +5,8 @@
 ![demo1](https://user-images.githubusercontent.com/21290233/232254337-f1f93c3f-a896-418f-9473-ad58645b00f3.gif)
 
 ## Open ender chests, shulker boxes and crafting tables by right-clicking **in your hand**
-![demo2](https://user-images.githubusercontent.com/21290233/232254528-4d8f7aa0-33ee-439a-a8a0-e75f5b599a84.gif)
+![demo2](https://user-images.githubusercontent.com/21290233/232255429-a0437498-1c26-4fcd-8393-4da04e667f01.gif)
+
 
 This plugin was made for my private survival server. I've released it to the public spigot forums where others may find it useful.
 
