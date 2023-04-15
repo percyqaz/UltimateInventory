@@ -1,10 +1,12 @@
-# Shulkerbox
+# Ultimate Inventory
  Minecraft/Spigot plugin to streamline inventory management
 
-Features:
-- Right-click on an ender chest in your inventory to open your ender chest
-- Right-clicking again closes your ender chest
-- Right-click on a shulker box in your inventory OR in your ender chest to open it
+## Open ender chests, shulker boxes and crafting tables by right-clicking **in the inventory**
+![demo1](https://user-images.githubusercontent.com/21290233/232254337-f1f93c3f-a896-418f-9473-ad58645b00f3.gif)
+
+## Open ender chests, shulker boxes and crafting tables by right-clicking **in your hand**
+![demo2](https://user-images.githubusercontent.com/21290233/232254528-4d8f7aa0-33ee-439a-a8a0-e75f5b599a84.gif)
+
 
 Anti duplication measures against:
 - Dropping the shulker box
