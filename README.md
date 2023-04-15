@@ -7,24 +7,22 @@
 ## Open ender chests, shulker boxes and crafting tables by right-clicking **in your hand**
 ![demo2](https://user-images.githubusercontent.com/21290233/232254528-4d8f7aa0-33ee-439a-a8a0-e75f5b599a84.gif)
 
+This plugin was made for my private survival server. I've released it to the public spigot forums where others may find it useful.
 
-Anti duplication measures against:
-- Dropping the shulker box
-- Moving it around
-- Dying for any reason
-- Disconnecting for any reason
+**Caution: while every care has been taken to remove duplication bugs, some may remain.**
 
-After these measures I have not been able to find any duplication exploits yet after trying every trick I could think of
-
-Here are ways you could create a duplication bug:
-- Using a plugin or mod that moves items around in a player's inventory while they have a shulker box open
-- Using a plugin or mod that lets you see into a player's inventory or enderchest such as /invsee from Essentials
-
-Please consider your plugins carefully, I take no responsibility in these cases as my only goal was to have no duplication bugs when this plugin is on its own
+I have tested this plugin very thoroughly for duplication exploits and I have had no issues with it in several months on my private server. I trust it and you can safely trust it too.
+That being said, please consider your plugins carefully before installing, I can only guarantee no exploits when this plugin is not installed with other inventory-manipulating plugins.
+Things to avoid in other plugins:
+- Things that rearrange a player's inventory other than when they are normally clicking/dragging items around
+- Things that let one player change another's inventory (such as /invsee from Essentials)
 
 If you find any duplication bugs please immediately report them [here](https://github.com/percyqaz/Shulkerbox/issues)
 
-Future features and known issues:
-- Issue: Doesn't work in the creative inventory. If this matters to you that's very unfortunate as this is written for a private survival server
-- Issue: You can put your enderchest into your enderchest and lose it if you only had one. Try not to do that
-- Feature: Config to toggle on/off shulker, crafting table, enderchest behaviour
+Known issues:
+- This plugin doesn't work in the creative inventory. Need this? Request it on the forums or open an issue
+- You can put your enderchest into your enderchest and lock it in there by mistake. Try not to do that :)
+
+No other known issues
+
+Need configuration options/only want part of this plugin on your server? Request it on the forums or open an issue
