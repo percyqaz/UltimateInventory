@@ -15,7 +15,9 @@ This plugin was made for my private survival server. I've released it to the pub
 ## **Caution: while every care has been taken to remove duplication bugs, some may remain.**
 
 I have tested this plugin very thoroughly for duplication exploits and I have had no issues with it in several months on my private server. I trust it and you can safely trust it too.
+
 That being said, please consider your plugins carefully before installing, I can only guarantee no exploits when this plugin is not installed with other inventory-manipulating plugins.
+
 Things to avoid in other plugins:
 - Things that rearrange a player's inventory other than when they are normally clicking/dragging items around
 - Things that let one player change another's inventory (such as /invsee from Essentials)
