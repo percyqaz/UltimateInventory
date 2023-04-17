@@ -225,6 +225,12 @@ public class InventoryListener implements Listener
 
         Player player = e.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
+
+        if (item == null)
+        {
+            return;
+        }
+
         Material itemType = item.getType();
 
         if (itemType == Material.ENDER_CHEST)
@@ -245,16 +251,13 @@ public class InventoryListener implements Listener
             e.setCancelled(true);
         }
 
-        if (IsShulkerBox(itemType))
+        if (IsShulkerBox(itemType) && item.getAmount() == 1)
         {
-            if(item.getAmount() == 1)
-            {
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
-                        plugin,
-                        () -> OpenShulkerbox(player, item)
-                );
-                e.setCancelled(true);
-            }
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                    plugin,
+                    () -> OpenShulkerbox(player, item)
+            );
+            e.setCancelled(true);
         }
     }
 
