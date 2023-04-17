@@ -225,12 +225,6 @@ public class InventoryListener implements Listener
 
         Player player = e.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
-
-        if (item == null)
-        {
-            return;
-        }
-
         Material itemType = item.getType();
 
         if (itemType == Material.ENDER_CHEST)
