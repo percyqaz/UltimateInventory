@@ -24,6 +24,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+
 public class InventoryListener implements Listener
 {
     Shulkerbox plugin;
@@ -93,7 +98,16 @@ public class InventoryListener implements Listener
             return;
         }
 
-        Inventory shulker_inventory = ((ShulkerBox)((BlockStateMeta)shulkerItem.getItemMeta()).getBlockState()).getSnapshotInventory();
+        // Added NBT for "locking" to prevent stacking shulker boxes
+        ItemMeta meta = shulkerItem.getItemMeta();
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        NamespacedKey nbtKey = new NamespacedKey(plugin, "__shulkerbox_plugin");
+        if(!data.has(nbtKey, PersistentDataType.STRING)){
+            data.set(nbtKey, PersistentDataType.STRING, String.valueOf(System.currentTimeMillis()));
+            shulkerItem.setItemMeta(meta);
+        }
+
+        Inventory shulker_inventory = ((ShulkerBox)((BlockStateMeta)meta).getBlockState()).getSnapshotInventory();
         String displayName = shulkerItem.getItemMeta().getDisplayName();
         Inventory inventory;
         if (displayName.isEmpty())
@@ -118,6 +132,13 @@ public class InventoryListener implements Listener
         BlockStateMeta meta = (BlockStateMeta)shulkerItem.getItemMeta();
         ShulkerBox shulkerbox = (ShulkerBox)meta.getBlockState();
         shulkerbox.getInventory().setContents(player.getOpenInventory().getTopInventory().getContents());
+
+        // Delete NBT for "locking" to prevent stacking shulker boxes
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        NamespacedKey nbtKey = new NamespacedKey(plugin, "__shulkerbox_plugin");
+        if(data.has(nbtKey, PersistentDataType.STRING)){
+            data.remove(nbtKey);
+        }
 
         meta.setBlockState(shulkerbox);
         shulkerItem.setItemMeta(meta);
@@ -182,11 +203,14 @@ public class InventoryListener implements Listener
 
         if (IsShulkerBox(itemType))
         {
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
-                    plugin,
-                    () -> OpenShulkerbox(e.getWhoClicked(), item)
-            );
-            e.setCancelled(true);
+            if(item.getAmount() == 1)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> OpenShulkerbox(e.getWhoClicked(), item)
+                );
+                e.setCancelled(true);
+            }
         }
     }
 
@@ -222,11 +246,14 @@ public class InventoryListener implements Listener
 
         if (IsShulkerBox(itemType))
         {
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
-                    plugin,
-                    () -> OpenShulkerbox(player, item)
-            );
-            e.setCancelled(true);
+            if(item.getAmount() == 1)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> OpenShulkerbox(player, item)
+                );
+                e.setCancelled(true);
+            }
         }
     }
 
