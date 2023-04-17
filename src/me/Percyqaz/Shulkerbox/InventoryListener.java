@@ -25,7 +25,6 @@ import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -181,6 +180,11 @@ public class InventoryListener implements Listener
         }
 
         ItemStack item = e.getCurrentItem();
+        if (item == null)
+        {
+            return;
+        }
+
         Material itemType = item.getType();
 
         if (itemType == Material.ENDER_CHEST && item.getAmount() == 1)
@@ -201,16 +205,13 @@ public class InventoryListener implements Listener
             e.setCancelled(true);
         }
 
-        if (IsShulkerBox(itemType))
+        if (IsShulkerBox(itemType) && item.getAmount() == 1)
         {
-            if(item.getAmount() == 1)
-            {
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
-                        plugin,
-                        () -> OpenShulkerbox(e.getWhoClicked(), item)
-                );
-                e.setCancelled(true);
-            }
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                    plugin,
+                    () -> OpenShulkerbox(e.getWhoClicked(), item)
+            );
+            e.setCancelled(true);
         }
     }
 
