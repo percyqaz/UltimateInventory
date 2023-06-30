@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Shulkerbox:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/Shulkerbox_jar</output-path>
-    <root id="archive" name="Shulkerbox.jar">
-      <element id="module-output" name="Shulkerbox" />
-    </root>
-  </artifact>
-</component>
