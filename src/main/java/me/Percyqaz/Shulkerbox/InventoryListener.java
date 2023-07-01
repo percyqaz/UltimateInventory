@@ -25,11 +25,13 @@ public class InventoryListener implements Listener
 {
     Shulkerbox plugin;
     FileConfiguration config;
+    boolean isPaper;
     Map<UUID, ItemStack> openShulkerBoxes = new HashMap<>();
 
-    public InventoryListener(Shulkerbox plugin, FileConfiguration config) {
+    public InventoryListener(Shulkerbox plugin, FileConfiguration config, boolean isPaper) {
         this.config = config;
         this.plugin = plugin;
+        this.isPaper = isPaper;
     }
 
     private boolean IsShulkerBox(Material material)
@@ -83,6 +85,16 @@ public class InventoryListener implements Listener
         player.openWorkbench(null, true);
     }
 
+    private void ShowStoneCutter(HumanEntity player)
+    {
+        if (player.getOpenInventory().getType() == InventoryType.STONECUTTER)
+        {
+            return;
+        }
+
+        player.openStonecutter(null, true);
+    }
+
     private void OpenShulkerbox(HumanEntity player, ItemStack shulkerItem)
     {
         // Don't open the box if already open (avoids a duplication bug)
@@ -102,15 +114,14 @@ public class InventoryListener implements Listener
         }
 
         Inventory shulker_inventory = ((ShulkerBox)((BlockStateMeta)meta).getBlockState()).getSnapshotInventory();
-        String displayName = shulkerItem.getItemMeta().getDisplayName();
         Inventory inventory;
-        if (displayName.isEmpty())
+        if (!meta.hasDisplayName())
         {
             inventory = Bukkit.createInventory(null, InventoryType.SHULKER_BOX);
         }
         else
         {
-            inventory = Bukkit.createInventory(null, InventoryType.SHULKER_BOX, displayName);
+            inventory = Bukkit.createInventory(null, InventoryType.SHULKER_BOX, meta.getDisplayName());
         }
         inventory.setContents(shulker_inventory.getContents());
 
@@ -170,7 +181,7 @@ public class InventoryListener implements Listener
 
         InventoryType clickedInventory = e.getClickedInventory().getType();
 
-        if (!(clickedInventory == InventoryType.PLAYER || clickedInventory == InventoryType.ENDER_CHEST || clickedInventory == InventoryType.CREATIVE))
+        if (!(clickedInventory == InventoryType.PLAYER || clickedInventory == InventoryType.ENDER_CHEST || clickedInventory == InventoryType.SHULKER_BOX || clickedInventory == InventoryType.CREATIVE))
         {
             return;
         }
@@ -201,13 +212,25 @@ public class InventoryListener implements Listener
             e.setCancelled(true);
         }
 
-        if (IsShulkerBox(itemType) && item.getAmount() == 1)
+        if (clickedInventory != InventoryType.SHULKER_BOX && IsShulkerBox(itemType) && item.getAmount() == 1)
         {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                     plugin,
                     () -> OpenShulkerbox(e.getWhoClicked(), item)
             );
             e.setCancelled(true);
+        }
+
+        if (isPaper)
+        {
+            if (itemType == Material.STONECUTTER && item.getAmount() == 1)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowStoneCutter(e.getWhoClicked())
+                );
+                e.setCancelled(true);
+            }
         }
     }
 
@@ -248,6 +271,18 @@ public class InventoryListener implements Listener
                     () -> OpenShulkerbox(player, item)
             );
             e.setCancelled(true);
+        }
+
+        if (isPaper)
+        {
+            if (itemType == Material.STONECUTTER)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowStoneCutter(player)
+                );
+                e.setCancelled(true);
+            }
         }
     }
 

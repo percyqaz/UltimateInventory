@@ -9,7 +9,19 @@ public class Shulkerbox extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.getLogger().info("Activated");
-        getServer().getPluginManager().registerEvents(new InventoryListener(this, config), this);
+
+        boolean isPaper = false;
+        try
+        {
+            Class.forName("com.destroystokyo.paper.utils.PaperPluginLogger");
+            isPaper = true;
+            this.getLogger().info("You are running PaperMC, all advanced features are enabled");
+        }
+        catch (ClassNotFoundException discard)
+        {
+            this.getLogger().info("You are not running PaperMC, some features have been disabled");
+        }
+
+        getServer().getPluginManager().registerEvents(new InventoryListener(this, config, isPaper), this);
     }
 }
