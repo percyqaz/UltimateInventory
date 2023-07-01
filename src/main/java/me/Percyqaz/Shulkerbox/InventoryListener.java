@@ -1,12 +1,8 @@
 package me.Percyqaz.Shulkerbox;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
+import java.util.*;
+
+import org.bukkit.*;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.HumanEntity;
@@ -18,13 +14,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -34,8 +27,7 @@ public class InventoryListener implements Listener
     FileConfiguration config;
     Map<UUID, ItemStack> openShulkerBoxes = new HashMap<>();
 
-    public InventoryListener(Shulkerbox plugin, FileConfiguration config)
-    {
+    public InventoryListener(Shulkerbox plugin, FileConfiguration config) {
         this.config = config;
         this.plugin = plugin;
     }
@@ -60,8 +52,10 @@ public class InventoryListener implements Listener
             case GRAY_SHULKER_BOX:
             case BROWN_SHULKER_BOX:
             case BLACK_SHULKER_BOX:
-            case WHITE_SHULKER_BOX: return true;
-            default: return false;
+            case WHITE_SHULKER_BOX:
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -101,7 +95,8 @@ public class InventoryListener implements Listener
         ItemMeta meta = shulkerItem.getItemMeta();
         PersistentDataContainer data = meta.getPersistentDataContainer();
         NamespacedKey nbtKey = new NamespacedKey(plugin, "__shulkerbox_plugin");
-        if(!data.has(nbtKey, PersistentDataType.STRING)){
+        if(!data.has(nbtKey, PersistentDataType.STRING))
+        {
             data.set(nbtKey, PersistentDataType.STRING, String.valueOf(System.currentTimeMillis()));
             shulkerItem.setItemMeta(meta);
         }
@@ -135,7 +130,8 @@ public class InventoryListener implements Listener
         // Delete NBT for "locking" to prevent stacking shulker boxes
         PersistentDataContainer data = meta.getPersistentDataContainer();
         NamespacedKey nbtKey = new NamespacedKey(plugin, "__shulkerbox_plugin");
-        if(data.has(nbtKey, PersistentDataType.STRING)){
+        if(data.has(nbtKey, PersistentDataType.STRING))
+        {
             data.remove(nbtKey);
         }
 
