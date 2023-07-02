@@ -1,5 +1,5 @@
 # Ultimate Inventory
- Minecraft/Spigot plugin to streamline inventory management
+A Spigot plugin to streamline inventory management
 
 ## Open ender chests, shulker boxes and crafting tables by right-clicking **in the inventory**
 ![demo1](https://user-images.githubusercontent.com/21290233/232254337-f1f93c3f-a896-418f-9473-ad58645b00f3.gif)
@@ -7,6 +7,7 @@
 ## Open ender chests, shulker boxes and crafting tables by right-clicking **in your hand**
 ![demo2](https://user-images.githubusercontent.com/21290233/232255429-a0437498-1c26-4fcd-8393-4da04e667f01.gif)
 
+###### Bonus! If you are running PaperMC, you can also open stonecutters, grindstones, looms, smithing tables and cartography tables the same way as crafting tables.
 
 This plugin was made for my private survival server. I've released it to the public spigot forums where others may find it useful.
 
