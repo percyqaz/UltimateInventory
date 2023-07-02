@@ -1,4 +1,4 @@
-package me.Percyqaz.Shulkerbox;
+package me.Percyqaz.UltimateInventory;
 
 import java.util.*;
 
@@ -23,12 +23,12 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class InventoryListener implements Listener
 {
-    Shulkerbox plugin;
+    UltimateInventory plugin;
     FileConfiguration config;
     boolean isPaper;
     Map<UUID, ItemStack> openShulkerBoxes = new HashMap<>();
 
-    public InventoryListener(Shulkerbox plugin, FileConfiguration config, boolean isPaper) {
+    public InventoryListener(UltimateInventory plugin, FileConfiguration config, boolean isPaper) {
         this.config = config;
         this.plugin = plugin;
         this.isPaper = isPaper;

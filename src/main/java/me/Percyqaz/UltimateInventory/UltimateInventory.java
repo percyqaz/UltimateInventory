@@ -1,9 +1,9 @@
-package me.Percyqaz.Shulkerbox;
+package me.Percyqaz.UltimateInventory;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class Shulkerbox extends JavaPlugin {
+public class UltimateInventory extends JavaPlugin {
 
     FileConfiguration config = getConfig();
 
@@ -15,11 +15,12 @@ public class Shulkerbox extends JavaPlugin {
         {
             Class.forName("com.destroystokyo.paper.utils.PaperPluginLogger");
             isPaper = true;
-            this.getLogger().info("You are running PaperMC, all advanced features are enabled");
+            this.getLogger().info("You are running PaperMC, some extra features are enabled");
         }
-        catch (ClassNotFoundException discard)
+        catch (ClassNotFoundException e)
         {
-            this.getLogger().info("You are not running PaperMC, some features have been disabled");
+            //https://www.spigotmc.org/threads/quick-question-about-posting-resources.394544/#post-3543896
+            this.getLogger().info("You are not running PaperMC");
         }
 
         getServer().getPluginManager().registerEvents(new InventoryListener(this, config, isPaper), this);
