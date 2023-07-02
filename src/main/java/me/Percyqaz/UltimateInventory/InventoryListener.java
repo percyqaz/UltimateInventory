@@ -95,6 +95,46 @@ public class InventoryListener implements Listener
         player.openStonecutter(null, true);
     }
 
+    private void ShowCartographyTable(HumanEntity player)
+    {
+        if (player.getOpenInventory().getType() == InventoryType.CARTOGRAPHY)
+        {
+            return;
+        }
+
+        player.openCartographyTable(null, true);
+    }
+
+    private void ShowLoom(HumanEntity player)
+    {
+        if (player.getOpenInventory().getType() == InventoryType.LOOM)
+        {
+            return;
+        }
+
+        player.openLoom(null, true);
+    }
+
+    private void ShowSmithingTable(HumanEntity player)
+    {
+        if (player.getOpenInventory().getType() == InventoryType.SMITHING)
+        {
+            return;
+        }
+
+        player.openSmithingTable(null, true);
+    }
+
+    private void ShowGrindstone(HumanEntity player)
+    {
+        if (player.getOpenInventory().getType() == InventoryType.GRINDSTONE)
+        {
+            return;
+        }
+
+        player.openGrindstone(null, true);
+    }
+
     private void OpenShulkerbox(HumanEntity player, ItemStack shulkerItem)
     {
         // Don't open the box if already open (avoids a duplication bug)
@@ -192,9 +232,14 @@ public class InventoryListener implements Listener
             return;
         }
 
+        if (item.getAmount() != 1)
+        {
+            return;
+        }
+
         Material itemType = item.getType();
 
-        if (itemType == Material.ENDER_CHEST && item.getAmount() == 1)
+        if (itemType == Material.ENDER_CHEST)
         {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                     plugin,
@@ -203,7 +248,7 @@ public class InventoryListener implements Listener
             e.setCancelled(true);
         }
 
-        if (itemType == Material.CRAFTING_TABLE && item.getAmount() == 1)
+        if (itemType == Material.CRAFTING_TABLE)
         {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                     plugin,
@@ -212,7 +257,7 @@ public class InventoryListener implements Listener
             e.setCancelled(true);
         }
 
-        if (clickedInventory != InventoryType.SHULKER_BOX && IsShulkerBox(itemType) && item.getAmount() == 1)
+        if (clickedInventory != InventoryType.SHULKER_BOX && IsShulkerBox(itemType))
         {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                     plugin,
@@ -223,11 +268,47 @@ public class InventoryListener implements Listener
 
         if (isPaper)
         {
-            if (itemType == Material.STONECUTTER && item.getAmount() == 1)
+            if (itemType == Material.STONECUTTER)
             {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
                         () -> ShowStoneCutter(e.getWhoClicked())
+                );
+                e.setCancelled(true);
+            }
+
+            if (itemType == Material.CARTOGRAPHY_TABLE)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowCartographyTable(e.getWhoClicked())
+                );
+                e.setCancelled(true);
+            }
+
+            if (itemType == Material.LOOM)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowLoom(e.getWhoClicked())
+                );
+                e.setCancelled(true);
+            }
+
+            if (itemType == Material.SMITHING_TABLE)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowSmithingTable(e.getWhoClicked())
+                );
+                e.setCancelled(true);
+            }
+
+            if (itemType == Material.GRINDSTONE)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowGrindstone(e.getWhoClicked())
                 );
                 e.setCancelled(true);
             }
@@ -280,6 +361,42 @@ public class InventoryListener implements Listener
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
                         () -> ShowStoneCutter(player)
+                );
+                e.setCancelled(true);
+            }
+
+            if (itemType == Material.CARTOGRAPHY_TABLE)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowCartographyTable(player)
+                );
+                e.setCancelled(true);
+            }
+
+            if (itemType == Material.LOOM)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowLoom(player)
+                );
+                e.setCancelled(true);
+            }
+
+            if (itemType == Material.SMITHING_TABLE)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowSmithingTable(player)
+                );
+                e.setCancelled(true);
+            }
+
+            if (itemType == Material.GRINDSTONE)
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowGrindstone(player)
                 );
                 e.setCancelled(true);
             }

@@ -1,5 +1,5 @@
 name: UltimateInventory
 version: 1.2
 author: Percyqaz
-main: me.Percyqaz.Shulkerbox.Shulkerbox
+main: me.Percyqaz.UltimateInventory.UltimateInventory
 api-version: '1.20'
