@@ -29,7 +29,6 @@ public class ChestSortListener implements Listener
             PersistentDataContainer data = meta.getPersistentDataContainer();
             if(data.has(nbtKey, PersistentDataType.STRING))
             {
-                plugin.getLogger().info("Prevented movement of a shulker box");
                 chestSortEvent.setUnmovable(itemStack);
             }
         }
