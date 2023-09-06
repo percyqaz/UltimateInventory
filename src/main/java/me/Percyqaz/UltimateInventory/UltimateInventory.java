@@ -1,5 +1,6 @@
 package me.Percyqaz.UltimateInventory;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,5 +25,10 @@ public class UltimateInventory extends JavaPlugin {
         }
 
         getServer().getPluginManager().registerEvents(new InventoryListener(this, config, isPaper), this);
+        if (getServer().getPluginManager().getPlugin("ChestSort") != null)
+        {
+            getServer().getPluginManager().registerEvents(new ChestSortListener(this), this);
+            this.getLogger().info("ChestSort detected, enabling compatibility support");
+        }
     }
 }

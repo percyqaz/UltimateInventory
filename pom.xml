@@ -6,7 +6,7 @@
 
     <groupId>Percyqaz.me</groupId>
     <artifactId>UltimateInventory</artifactId>
-    <version>1.3</version>
+    <version>1.4</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -24,6 +24,10 @@
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
+		<repository>
+			<id>jeff-media-public</id>
+			<url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
+		</repository>
     </repositories>
 
     <dependencies>
@@ -39,6 +43,12 @@
             <version>1.20.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+		<dependency>
+			<groupId>de.jeff_media</groupId>
+			<artifactId>ChestSortAPI</artifactId>
+			<version>13.0.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
     </dependencies>
 
 </project>
