@@ -30,7 +30,7 @@ Things to avoid in other plugins:
 > If you use plugins other than the ones listed here, please take a moment to think if they fit the description - If so, they may cause duplication bugs!
 
 - This plugin is compatible with [ChestSort](https://www.spigotmc.org/resources/chestsort-api.59773/) as of version 1.4
-- This plugin should be compatible with any plugins that allow identical shulker boxes to stack - Tested with [SimpleStack 2.0 developement builds](https://github.com/Mikedeejay2/SimpleStackPlugin)
+- This plugin should be compatible with any plugins that allow identical shulker boxes to stack - Tested with [SimpleStack 2.0 development builds](https://github.com/Mikedeejay2/SimpleStackPlugin)
 
 If you find any duplication bugs (or bugs in general) please immediately report them [here](https://github.com/percyqaz/Shulkerbox/issues)
 
