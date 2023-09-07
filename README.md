@@ -22,7 +22,7 @@ That being said, please consider your plugins carefully before installing, I can
 
 Things to avoid in other plugins:
 - Things that rearrange a player's inventory other than when they are normally clicking/dragging items around
-- Things that let one player change another's inventory (such as /invsee from Essentials)
+- Things that let one player change another's inventory while they're online (such as /invsee from Essentials)
 
 ### Compatibility list
 
