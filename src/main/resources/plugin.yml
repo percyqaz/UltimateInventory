@@ -1,6 +1,27 @@
 name: UltimateInventory
-version: 1.4
+version: 1.5
 author: Percyqaz
 main: me.Percyqaz.UltimateInventory.UltimateInventory
 api-version: '1.20'
 softdepend: [ChestSort]
+permissions:
+  ultimateinventory.shulkerbox:
+    default: false
+  ultimateinventory.enderchest:
+    default: false
+  ultimateinventory.craftingtable:
+    default: false
+  ultimateinventory.smithingtable:
+    default: false
+  ultimateinventory.stonecutter:
+    default: false
+  ultimateinventory.grindstone:
+    default: false
+  ultimateinventory.cartographytable:
+    default: false
+  ultimateinventory.loom:
+    default: false
+  ultimateinventory.anvil:
+    default: false
+  ultimateinventory.enchantingtable:
+    default: false

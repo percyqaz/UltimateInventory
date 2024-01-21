@@ -28,10 +28,38 @@ public class InventoryListener implements Listener
     boolean isPaper;
     Map<UUID, ItemStack> openShulkerBoxes = new HashMap<>();
 
+    boolean enableShulkerbox;
+    boolean enableEnderChest;
+    boolean enableCraftingTable;
+    boolean enableSmithingTable;
+    boolean enableStoneCutter;
+    boolean enableGrindstone;
+    boolean enableCartographyTable;
+    boolean enableLoom;
+    boolean enableAnvil;
+    boolean enableEnchantingTable;
+
+    boolean usePermissions;
+
     public InventoryListener(UltimateInventory plugin, FileConfiguration config, boolean isPaper) {
         this.config = config;
         this.plugin = plugin;
         this.isPaper = isPaper;
+
+        enableShulkerbox = config.getBoolean("enableShulkerbox", true);
+        enableEnderChest = config.getBoolean("enableEnderChest", true);
+        enableCraftingTable = config.getBoolean("enableCraftingTable", true);
+        if (isPaper)
+        {
+            enableSmithingTable = config.getBoolean("enableSmithingTable", true);
+            enableStoneCutter = config.getBoolean("enableStoneCutter", true);
+            enableGrindstone = config.getBoolean("enableGrindstone", true);
+            enableCartographyTable = config.getBoolean("enableCartographyTable", true);
+            enableLoom = config.getBoolean("enableLoom", true);
+            enableAnvil = config.getBoolean("enableAnvil", false);
+            enableEnchantingTable = config.getBoolean("enableEnchantingTable", false);
+        }
+        usePermissions = config.getBoolean("usePermissions", false);
     }
 
     private boolean IsShulkerBox(Material material)
@@ -55,6 +83,19 @@ public class InventoryListener implements Listener
             case BROWN_SHULKER_BOX:
             case BLACK_SHULKER_BOX:
             case WHITE_SHULKER_BOX:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private boolean IsAnvil(Material material)
+    {
+        switch (material)
+        {
+            case ANVIL:
+            case CHIPPED_ANVIL:
+            case DAMAGED_ANVIL:
                 return true;
             default:
                 return false;
@@ -133,6 +174,26 @@ public class InventoryListener implements Listener
         }
 
         player.openGrindstone(null, true);
+    }
+
+    private void ShowAnvil(HumanEntity player)
+    {
+        if (player.getOpenInventory().getType() == InventoryType.ANVIL)
+        {
+            return;
+        }
+
+        player.openAnvil(null, true);
+    }
+
+    private void ShowEnchantingTable(HumanEntity player)
+    {
+        if (player.getOpenInventory().getType() == InventoryType.ENCHANTING)
+        {
+            return;
+        }
+
+        player.openEnchanting(null, true);
     }
 
     private void OpenShulkerbox(HumanEntity player, ItemStack shulkerItem)
@@ -238,77 +299,117 @@ public class InventoryListener implements Listener
         }
 
         Material itemType = item.getType();
+        HumanEntity player = e.getWhoClicked();
 
-        if (itemType == Material.ENDER_CHEST)
+        if (clickedInventory != InventoryType.SHULKER_BOX
+                && IsShulkerBox(itemType)
+                && enableShulkerbox
+                && (!usePermissions || player.hasPermission("ultimateinventory.shulkerbox")))
         {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                     plugin,
-                    () -> ShowEnderchest(e.getWhoClicked())
+                    () -> OpenShulkerbox(player, item)
             );
             e.setCancelled(true);
         }
 
-        if (itemType == Material.CRAFTING_TABLE)
+        if (itemType == Material.ENDER_CHEST
+                && enableEnderChest
+                && (!usePermissions || player.hasPermission("ultimateinventory.enderchest")))
         {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                     plugin,
-                    () -> ShowCraftingTable(e.getWhoClicked())
+                    () -> ShowEnderchest(player)
             );
             e.setCancelled(true);
         }
 
-        if (clickedInventory != InventoryType.SHULKER_BOX && IsShulkerBox(itemType))
+        if (itemType == Material.CRAFTING_TABLE
+                && enableCraftingTable
+                && (!usePermissions || player.hasPermission("ultimateinventory.craftingtable")))
         {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                     plugin,
-                    () -> OpenShulkerbox(e.getWhoClicked(), item)
+                    () -> ShowCraftingTable(player)
             );
             e.setCancelled(true);
         }
 
         if (isPaper)
         {
-            if (itemType == Material.STONECUTTER)
+            if (itemType == Material.STONECUTTER
+                    && enableStoneCutter
+                    && (!usePermissions || player.hasPermission("ultimateinventory.stonecutter")))
             {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
-                        () -> ShowStoneCutter(e.getWhoClicked())
+                        () -> ShowStoneCutter(player)
                 );
                 e.setCancelled(true);
             }
 
-            if (itemType == Material.CARTOGRAPHY_TABLE)
+            if (itemType == Material.CARTOGRAPHY_TABLE
+                    && enableCartographyTable
+                    && (!usePermissions || player.hasPermission("ultimateinventory.cartographytable")))
             {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
-                        () -> ShowCartographyTable(e.getWhoClicked())
+                        () -> ShowCartographyTable(player)
                 );
                 e.setCancelled(true);
             }
 
-            if (itemType == Material.LOOM)
+            if (itemType == Material.LOOM
+                    && enableLoom
+                    && (!usePermissions || player.hasPermission("ultimateinventory.loom")))
             {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
-                        () -> ShowLoom(e.getWhoClicked())
+                        () -> ShowLoom(player)
                 );
                 e.setCancelled(true);
             }
 
-            if (itemType == Material.SMITHING_TABLE)
+            if (itemType == Material.SMITHING_TABLE
+                    && enableSmithingTable
+                    && (!usePermissions || player.hasPermission("ultimateinventory.smithingtable")))
             {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
-                        () -> ShowSmithingTable(e.getWhoClicked())
+                        () -> ShowSmithingTable(player)
                 );
                 e.setCancelled(true);
             }
 
-            if (itemType == Material.GRINDSTONE)
+            if (itemType == Material.GRINDSTONE
+                    && enableGrindstone
+                    && (!usePermissions || player.hasPermission("ultimateinventory.grindstone")))
             {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
-                        () -> ShowGrindstone(e.getWhoClicked())
+                        () -> ShowGrindstone(player)
+                );
+                e.setCancelled(true);
+            }
+
+            if (IsAnvil(itemType)
+                    && enableAnvil
+                    && (!usePermissions || player.hasPermission("ultimateinventory.anvil")))
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowAnvil(player)
+                );
+                e.setCancelled(true);
+            }
+
+            if (itemType == Material.ENCHANTING_TABLE
+                    && enableEnchantingTable
+                    && (!usePermissions || player.hasPermission("ultimateinventory.enchantingtable")))
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowEnchantingTable(player)
                 );
                 e.setCancelled(true);
             }
@@ -327,25 +428,10 @@ public class InventoryListener implements Listener
         ItemStack item = player.getInventory().getItemInMainHand();
         Material itemType = item.getType();
 
-        if (itemType == Material.ENDER_CHEST)
-        {
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
-                    plugin,
-                    () -> ShowEnderchest(player)
-            );
-            e.setCancelled(true);
-        }
-
-        if (itemType == Material.CRAFTING_TABLE)
-        {
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
-                    plugin,
-                    () -> ShowCraftingTable(player)
-            );
-            e.setCancelled(true);
-        }
-
-        if (IsShulkerBox(itemType) && item.getAmount() == 1)
+        if (IsShulkerBox(itemType)
+                && item.getAmount() == 1
+                && enableShulkerbox
+                && (!usePermissions || player.hasPermission("ultimateinventory.shulkerbox")))
         {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                     plugin,
@@ -354,9 +440,33 @@ public class InventoryListener implements Listener
             e.setCancelled(true);
         }
 
+        if (itemType == Material.ENDER_CHEST
+                && enableEnderChest
+                && (!usePermissions || player.hasPermission("ultimateinventory.enderchest")))
+        {
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                    plugin,
+                    () -> ShowEnderchest(player)
+            );
+            e.setCancelled(true);
+        }
+
+        if (itemType == Material.CRAFTING_TABLE
+                && enableCraftingTable
+                && (!usePermissions || player.hasPermission("ultimateinventory.craftingtable")))
+        {
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                    plugin,
+                    () -> ShowCraftingTable(player)
+            );
+            e.setCancelled(true);
+        }
+
         if (isPaper)
         {
-            if (itemType == Material.STONECUTTER)
+            if (itemType == Material.STONECUTTER
+                    && enableStoneCutter
+                    && (!usePermissions || player.hasPermission("ultimateinventory.stonecutter")))
             {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
@@ -365,7 +475,9 @@ public class InventoryListener implements Listener
                 e.setCancelled(true);
             }
 
-            if (itemType == Material.CARTOGRAPHY_TABLE)
+            if (itemType == Material.CARTOGRAPHY_TABLE
+                    && enableCartographyTable
+                    && (!usePermissions || player.hasPermission("ultimateinventory.cartographytable")))
             {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
@@ -374,7 +486,9 @@ public class InventoryListener implements Listener
                 e.setCancelled(true);
             }
 
-            if (itemType == Material.LOOM)
+            if (itemType == Material.LOOM
+                    && enableLoom
+                    && (!usePermissions || player.hasPermission("ultimateinventory.loom")))
             {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
@@ -383,7 +497,9 @@ public class InventoryListener implements Listener
                 e.setCancelled(true);
             }
 
-            if (itemType == Material.SMITHING_TABLE)
+            if (itemType == Material.SMITHING_TABLE
+                    && enableSmithingTable
+                    && (!usePermissions || player.hasPermission("ultimateinventory.smithingtable")))
             {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
@@ -392,11 +508,35 @@ public class InventoryListener implements Listener
                 e.setCancelled(true);
             }
 
-            if (itemType == Material.GRINDSTONE)
+            if (itemType == Material.GRINDSTONE
+                    && enableGrindstone
+                    && (!usePermissions || player.hasPermission("ultimateinventory.grindstone")))
             {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
                         () -> ShowGrindstone(player)
+                );
+                e.setCancelled(true);
+            }
+
+            if (IsAnvil(itemType)
+                    && enableAnvil
+                    && (!usePermissions || player.hasPermission("ultimateinventory.anvil")))
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowAnvil(player)
+                );
+                e.setCancelled(true);
+            }
+
+            if (itemType == Material.ENCHANTING_TABLE
+                    && enableEnchantingTable
+                    && (!usePermissions || player.hasPermission("ultimateinventory.enchantingtable")))
+            {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
+                        plugin,
+                        () -> ShowEnchantingTable(player)
                 );
                 e.setCancelled(true);
             }

@@ -1,7 +1,7 @@
 package me.Percyqaz.UltimateInventory;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class UltimateInventory extends JavaPlugin {
@@ -24,10 +24,30 @@ public class UltimateInventory extends JavaPlugin {
             this.getLogger().info("You are not running PaperMC");
         }
 
-        getServer().getPluginManager().registerEvents(new InventoryListener(this, config, isPaper), this);
-        if (getServer().getPluginManager().getPlugin("ChestSort") != null)
+        PluginManager pm = getServer().getPluginManager();
+
+        config.addDefault("enableShulkerbox", true);
+        config.addDefault("enableEnderChest", true);
+        config.addDefault("enableCraftingTable", true);
+        if (isPaper)
         {
-            getServer().getPluginManager().registerEvents(new ChestSortListener(this), this);
+            config.addDefault("enableSmithingTable", true);
+            config.addDefault("enableStoneCutter", true);
+            config.addDefault("enableGrindstone", true);
+            config.addDefault("enableCartographyTable", true);
+            config.addDefault("enableLoom", true);
+            config.addDefault("enableAnvil", false);
+            config.addDefault("enableEnchantingTable", false);
+        }
+        config.addDefault("usePermissions", false);
+
+        config.options().copyDefaults(true);
+        saveConfig();
+
+        pm.registerEvents(new InventoryListener(this, config, isPaper), this);
+        if (pm.getPlugin("ChestSort") != null)
+        {
+            pm.registerEvents(new ChestSortListener(this), this);
             this.getLogger().info("ChestSort detected, enabling compatibility support");
         }
     }
