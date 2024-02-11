@@ -37,7 +37,6 @@ public class InventoryListener implements Listener
     boolean enableCartographyTable;
     boolean enableLoom;
     boolean enableAnvil;
-    boolean enableEnchantingTable;
 
     boolean usePermissions;
 
@@ -57,7 +56,6 @@ public class InventoryListener implements Listener
             enableCartographyTable = config.getBoolean("enableCartographyTable", true);
             enableLoom = config.getBoolean("enableLoom", true);
             enableAnvil = config.getBoolean("enableAnvil", false);
-            enableEnchantingTable = config.getBoolean("enableEnchantingTable", false);
         }
         usePermissions = config.getBoolean("usePermissions", false);
     }
@@ -186,16 +184,6 @@ public class InventoryListener implements Listener
         player.openAnvil(null, true);
     }
 
-    private void ShowEnchantingTable(HumanEntity player)
-    {
-        if (player.getOpenInventory().getType() == InventoryType.ENCHANTING)
-        {
-            return;
-        }
-
-        player.openEnchanting(null, true);
-    }
-
     private void OpenShulkerbox(HumanEntity player, ItemStack shulkerItem)
     {
         // Don't open the box if already open (avoids a duplication bug)
@@ -282,7 +270,7 @@ public class InventoryListener implements Listener
 
         InventoryType clickedInventory = e.getClickedInventory().getType();
 
-        if (!(clickedInventory == InventoryType.PLAYER || clickedInventory == InventoryType.ENDER_CHEST || clickedInventory == InventoryType.SHULKER_BOX || clickedInventory == InventoryType.CREATIVE))
+        if (!(clickedInventory == InventoryType.PLAYER || clickedInventory == InventoryType.ENDER_CHEST || clickedInventory == InventoryType.SHULKER_BOX))
         {
             return;
         }
@@ -402,17 +390,6 @@ public class InventoryListener implements Listener
                 );
                 e.setCancelled(true);
             }
-
-            if (itemType == Material.ENCHANTING_TABLE
-                    && enableEnchantingTable
-                    && (!usePermissions || player.hasPermission("ultimateinventory.enchantingtable")))
-            {
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
-                        plugin,
-                        () -> ShowEnchantingTable(player)
-                );
-                e.setCancelled(true);
-            }
         }
     }
 
@@ -526,17 +503,6 @@ public class InventoryListener implements Listener
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
                         plugin,
                         () -> ShowAnvil(player)
-                );
-                e.setCancelled(true);
-            }
-
-            if (itemType == Material.ENCHANTING_TABLE
-                    && enableEnchantingTable
-                    && (!usePermissions || player.hasPermission("ultimateinventory.enchantingtable")))
-            {
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(
-                        plugin,
-                        () -> ShowEnchantingTable(player)
                 );
                 e.setCancelled(true);
             }

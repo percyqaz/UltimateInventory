@@ -37,7 +37,6 @@ public class UltimateInventory extends JavaPlugin {
             config.addDefault("enableCartographyTable", true);
             config.addDefault("enableLoom", true);
             config.addDefault("enableAnvil", false);
-            config.addDefault("enableEnchantingTable", false);
         }
         config.addDefault("usePermissions", false);
 
