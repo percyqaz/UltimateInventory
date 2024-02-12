@@ -8,7 +8,7 @@ A Spigot plugin to streamline inventory management
 ![demo2](https://user-images.githubusercontent.com/21290233/232255429-a0437498-1c26-4fcd-8393-4da04e667f01.gif)
 
 > [!NOTE]
-> Bonus! If you are running PaperMC, you can also open stonecutters, grindstones, looms, smithing tables and cartography tables the same way as crafting tables.
+> Bonus! If you are running PaperMC, you can also open anvils, stonecutters, grindstones, looms, smithing tables and cartography tables the same way as crafting tables.
 
 This plugin was made for my private survival server. I've released it to the public spigot forums where others may find it useful.
 
@@ -35,9 +35,9 @@ Things to avoid in other plugins:
 If you find any duplication bugs (or bugs in general) please immediately report them [here](https://github.com/percyqaz/Shulkerbox/issues)
 
 ## Known issues:
-- This plugin doesn't work in the creative inventory. Need this? Request it on the forums or open an issue
+- This plugin doesn't work in the creative inventory
 - You can put your enderchest into your enderchest and lock it in there by mistake. Try not to do that :)
 
 No other known issues
 
-Need configuration options/only want part of this plugin on your server? Request it on the forums or open an issue
+Got a feature request? Ask on the forums or open an issue
