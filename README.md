@@ -21,8 +21,8 @@ I have tested this plugin very thoroughly for duplication exploits and I have ha
 That being said, please consider your plugins carefully before installing, I can only guarantee no exploits when this plugin is not installed with other inventory-manipulating plugins.
 
 Things to avoid in other plugins:
-- Things that rearrange a player's inventory other than when they are normally clicking/dragging items around
-- Things that let one player change another's inventory while they're online (such as /invsee from Essentials)
+- Things that rearrange a player's inventory *or ender chest* other than when they are normally clicking/dragging items around
+- Things that let one player change another's inventory *or ender chest* while they're online (such as /invsee from Essentials)
 
 ### Compatibility list
 
